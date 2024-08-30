@@ -3,6 +3,7 @@ import process from 'node:process';
 import { defineConfig, loadEnv } from '@farmfe/core';
 import { setupVitePlugins } from './build/plugins';
 import { createViteProxy, getBuildTime } from './build/config';
+import postcss from '@farmfe/js-plugin-postcss'
 
 export default defineConfig(configEnv => {
   const viteEnv = loadEnv(configEnv.mode, process.cwd()) as Env.ImportMeta;
@@ -48,9 +49,10 @@ export default defineConfig(configEnv => {
       [
         '@farmfe/plugin-sass',
         {
-          additionalData: `@use "./src/styles/scss/global.scss" as *;`
+          additionalData: `@use "@/styles/scss/global.scss" as *;`
         }
-      ]
+      ],
+      postcss(),
     ],
     vitePlugins: setupVitePlugins(viteEnv, buildTime) as object[]
   };
