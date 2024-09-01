@@ -11,6 +11,9 @@ export default defineConfig(configEnv => {
 
   const enableProxy = configEnv.command === 'serve' && !configEnv.isPreview;
 
+  // 存到 process.env，方便其他插件配置使用
+  process.env.viteEnv = JSON.stringify(viteEnv);
+
   return {
     base: viteEnv.VITE_BASE_URL,
     resolve: {

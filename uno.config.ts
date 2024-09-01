@@ -10,18 +10,12 @@ import presetIcons from '@unocss/preset-icons';
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders';
 import { themeVars } from './src/theme/vars';
 
-// 先写死
-const VITE_ICON_PREFIX = 'icon';
-const VITE_ICON_LOCAL_PREFIX = 'icon-local';
+const { VITE_ICON_PREFIX, VITE_ICON_LOCAL_PREFIX } = JSON.parse(process.env.viteEnv as string);
+
 const localIconPath = path.join(process.cwd(), 'src/assets/svg-icon');
 const collectionName = VITE_ICON_LOCAL_PREFIX.replace(`${VITE_ICON_PREFIX}-`, '');
 
 export default defineConfig<Theme>({
-  content: {
-    pipeline: {
-      exclude: ['node_modules', 'dist']
-    }
-  },
   theme: {
     ...themeVars,
     fontSize: {

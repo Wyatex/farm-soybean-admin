@@ -14,6 +14,11 @@ export default defineConfig(configEnv => {
   // const enableProxy = configEnv.command === 'serve' && !configEnv.isPreview;
   const enableProxy = true;
 
+  const proxy = createViteProxy(viteEnv, enableProxy);
+
+  // 存到 process.env，方便其他插件配置使用
+  process.env.viteEnv = JSON.stringify(viteEnv);
+
   return {
     compilation: {
       define: {
@@ -40,19 +45,19 @@ export default defineConfig(configEnv => {
       // }
     },
     server: {
-      host: '0.0.0.0',
+      // host: '0.0.0.0',
       port: 9527,
       open: true,
-      proxy: createViteProxy(viteEnv, enableProxy)
+      proxy,
     },
     plugins: [
+      postcss(),
       [
         '@farmfe/plugin-sass',
         {
           additionalData: `@use "@/styles/scss/global.scss" as *;`
         }
-      ],
-      postcss(),
+      ]
     ],
     vitePlugins: setupVitePlugins(viteEnv, buildTime) as object[]
   };
